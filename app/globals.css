@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg: #f8f5f0;
+  --bg-secondary: #ede9e2;
+  --fg: #0f0e0d;
+  --fg-muted: #6b6560;
+  --fg-subtle: #a09b96;
+  --accent: #c8522a;
+  --accent-hover: #a8421d;
+  --accent-light: #f0d4c9;
+  --border: #d6d0c8;
+  --border-strong: #b8b0a6;
+  --card: #ffffff;
+  --card-hover: #fdf8f4;
+  --shadow: rgba(15, 14, 13, 0.08);
+  --shadow-strong: rgba(15, 14, 13, 0.16);
+}
+
+.dark {
+  --bg: #0d0c0b;
+  --bg-secondary: #161412;
+  --fg: #f2ede8;
+  --fg-muted: #9e9690;
+  --fg-subtle: #5e5a56;
+  --accent: #e86a3a;
+  --accent-hover: #f07a4a;
+  --accent-light: #2a1a12;
+  --border: #2a2520;
+  --border-strong: #3d3730;
+  --card: #161412;
+  --card-hover: #1e1b17;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-strong: rgba(0, 0, 0, 0.5);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+::selection { background: var(--accent); color: white; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+.section-pad {
+  padding: 5rem 0;
+}
+
+@media (min-width: 768px) {
+  .section-pad { padding: 7rem 0; }
+}
+
+@media (min-width: 1024px) {
+  .section-pad { padding: 9rem 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
