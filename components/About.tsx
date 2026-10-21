@@ -31,7 +31,8 @@ export function About() {
               <p>
                 I&apos;m a graduate of the{" "}
                 <span className="font-medium text-fg">Computer Science Apprenticeship Program</span> at{" "}
-                <span className="font-medium text-fg">An-Najah National University</span>. I focus on crafting modern web applications that are fast, beautiful,
+                <span className="font-medium text-fg">An-Najah National University</span>, specializing in
+                Software Engineering. I focus on crafting modern web applications that are fast, beautiful,
                 and solve real problems.
               </p>
               <p>
