@@ -55,7 +55,7 @@ export function Hero() {
           </motion.h1>
 
           <motion.p {...fadeUp(0.16)} className="mt-7 max-w-lg text-base leading-relaxed text-muted sm:text-lg">
-            {PROFILE.role} and CS graduate crafting fast, polished, production-ready websites for real
+            {PROFILE.role} crafting fast, polished, production-ready websites for real
             clients — from agency sites and Shopify e-commerce stores to AI products.
           </motion.p>
 

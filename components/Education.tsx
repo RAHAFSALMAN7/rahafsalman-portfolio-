@@ -23,8 +23,8 @@ export function Education() {
                   <span className="font-mono text-xs text-subtle">{year}</span>
                 </div>
                 <h3 className="mb-1 text-xl font-semibold text-fg">{school}</h3>
-                <p className="text-sm font-medium text-accent">{degree}</p>
-                <p className="mb-6 text-sm text-subtle">{program}</p>
+                <p className={`text-sm font-medium text-accent ${program ? "" : "mb-6"}`}>{degree}</p>
+                {program && <p className="mb-6 text-sm text-subtle">{program}</p>}
                 <div className="flex flex-wrap gap-1.5">
                   {tags.map((t) => (
                     <span key={t} className="chip">

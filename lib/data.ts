@@ -236,8 +236,8 @@ export const AI_TOOLS = ["Cursor AI", "Claude AI", "GitHub Copilot", "Figma AI"]
 export const EDUCATION = [
   {
     school: "An-Najah National University",
-    degree: "Bachelor of Computer Science",
-    program: "Apprenticeship Program",
+    degree: "Computer Science Apprenticeship Program",
+    program: "",
     year: "2025",
     tags: ["Software Engineering", "Web Development", "AI/ML", "Databases"],
   },

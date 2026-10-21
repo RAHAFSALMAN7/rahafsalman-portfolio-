@@ -29,9 +29,9 @@ export function About() {
           <Reveal className="card p-7 sm:p-9 lg:col-span-2">
             <div className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
               <p>
-                I&apos;m a Computer Science graduate from{" "}
-                <span className="font-medium text-fg">An-Najah National University</span>, specializing in
-                Software Engineering. I focus on crafting modern web applications that are fast, beautiful,
+                I&apos;m a graduate of the{" "}
+                <span className="font-medium text-fg">Computer Science Apprenticeship Program</span> at{" "}
+                <span className="font-medium text-fg">An-Najah National University</span>. I focus on crafting modern web applications that are fast, beautiful,
                 and solve real problems.
               </p>
               <p>
@@ -72,7 +72,7 @@ export function About() {
             <Reveal delay={0.16} className="card grid grid-cols-2 gap-4 p-7">
               <div>
                 <div className="text-3xl font-semibold tracking-tight text-fg">2025</div>
-                <div className="text-xs text-muted">CS Graduate</div>
+                <div className="text-xs text-muted">CS Apprenticeship grad</div>
               </div>
               <div>
                 <div className="text-3xl font-semibold tracking-tight text-fg">100%</div>
