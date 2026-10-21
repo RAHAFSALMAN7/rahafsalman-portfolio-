@@ -1,193 +1,134 @@
 "use client";
-import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { ArrowUpRight, GitFork } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { PROFILE, PROJECTS, displayUrl, type Project } from "@/lib/data";
 
-const PROJECTS = [
-  {
-    id: 1,
-    title: "AMT Arabia",
-    desc: "Real client project built for the Saudi market, focused on polished UX, clear structure, and a fast, production-ready web experience.",
-    tags: ["Next.js", "Tailwind CSS", "SEO", "Client Delivery"],
-    type: "Client Project",
-    featured: true,
-    liveUrl: "https://amt-arabia.net/en",
-  },
-  {
-    id: 2,
-    title: "Zuccess",
-    desc: "AI-powered creative tech platform designed to support content workflows with a modern interface and smooth, conversion-focused interactions.",
-    tags: ["AI Platform", "React", "UI/UX", "Frontend Engineering"],
-    type: "Creative Tech",
-    featured: true,
-    liveUrl: "https://zuccess.ai/",
-  },
-  {
-    id: 3,
-    title: "Zai Chat",
-    desc: "AI chat and dashboard system project with a product-oriented UI, integration-focused flows, and a responsive control panel experience.",
-    tags: ["AI Chat", "Dashboard", "Integration", "Frontend"],
-    type: "AI Product",
-    featured: true,
-    liveUrl: "https://zaichat.net/dashboard",
-  },
-  {
-    id: 4,
-    title: "MKN Sea Point",
-    desc: "Business website project built to present services with clarity, credibility, and a premium visual style across desktop and mobile devices.",
-    tags: ["Business Website", "Responsive", "Brand Presence", "Production"],
-    type: "Business Website",
-    featured: true,
-    liveUrl: "https://www.mknseapoint.com/",
-  },
-];
+const FILTERS = ["All", "255 Advertising", "Zuccess"] as const;
+type Filter = (typeof FILTERS)[number];
 
-const TYPE_COLORS: Record<string, string> = {
-  "Client Project": "#c8522a",
-  "Creative Tech": "#3b82f6",
-  "AI Product": "#8b5cf6",
-  "Business Website": "#0ea5a5",
-};
-
-export function Projects() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-  const [hovered, setHovered] = useState<number | null>(null);
-
+function ProjectCard({ project }: { project: Project }) {
+  const { hue } = project;
   return (
-    <section
-      id="projects"
-      ref={ref}
-      className="section-pad"
-      style={{ background: "var(--bg-secondary)" }}
+    <motion.a
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      href={project.liveUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="card group flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-line-strong"
     >
-      <div className="max-w-6xl mx-auto px-6">
-        <SectionHeading
-          label="Projects"
-          title="Selected Work"
-          subtitle="Live client and product projects delivered with a clean, high-end user experience."
-        />
+      {/* Cover: a mini browser window with a generated gradient */}
+      <div className="p-2 pb-0">
+        <div className="overflow-hidden rounded-t-2xl border border-b-0 border-line">
+          <div className="flex items-center gap-1.5 border-b border-line bg-surface px-3 py-2">
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+            <span className="h-2 w-2 rounded-full bg-line-strong" />
+            <span className="ml-2 truncate rounded-md bg-card px-2 py-0.5 font-mono text-[10px] text-subtle">
+              {displayUrl(project.liveUrl)}
+            </span>
+          </div>
+          <div
+            className="relative flex h-36 items-center justify-center overflow-hidden"
+            style={{
+              background: `radial-gradient(120% 120% at 0% 0%, hsl(${hue} 85% 65% / 0.45), transparent 60%),
+                radial-gradient(120% 120% at 100% 100%, hsl(${hue + 50} 85% 60% / 0.35), transparent 60%), var(--bg-secondary)`,
+            }}
+          >
+            <span className="px-6 text-center font-serif text-3xl italic leading-tight text-fg/80 transition-transform duration-500 group-hover:scale-110">
+              {project.title}
+            </span>
+          </div>
+        </div>
+      </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PROJECTS.map((project, i) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              onHoverStart={() => setHovered(project.id)}
-              onHoverEnd={() => setHovered(null)}
-              className="group relative flex flex-col rounded-2xl border overflow-hidden"
-              style={{
-                background: "var(--card)",
-                borderColor: hovered === project.id ? "var(--accent)" : "var(--border)",
-                transition: "border-color 0.2s",
-              }}
-            >
-              {/* Top color bar */}
-              <div
-                className="h-1 w-full"
-                style={{ background: TYPE_COLORS[project.type] || "var(--accent)" }}
-              />
-
-              {/* Card content */}
-              <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-start justify-between mb-3">
-                  <span
-                    className="text-xs font-bold tracking-wide uppercase px-2 py-0.5 rounded-full"
-                    style={{
-                      background: "var(--accent-light)",
-                      color: "var(--accent)",
-                      fontFamily: "Syne, sans-serif",
-                    }}
-                  >
-                    {project.type}
-                  </span>
-                  {project.featured && (
-                    <span className="text-xs" style={{ color: "var(--fg-subtle)" }}>★ Featured</span>
-                  )}
-                </div>
-
-                <h3
-                  className="text-lg font-black mb-2"
-                  style={{ fontFamily: "Syne, sans-serif", color: "var(--fg)" }}
-                >
-                  {project.title}
-                </h3>
-
-                <p
-                  className="text-sm leading-relaxed mb-5 flex-1"
-                  style={{ color: "var(--fg-muted)" }}
-                >
-                  {project.desc}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs px-2 py-1 rounded-full"
-                      style={{ background: "var(--bg-secondary)", color: "var(--fg-subtle)" }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-auto">
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold rounded-full px-4 py-2 transition-all duration-200 w-full sm:w-auto"
-                    style={{
-                      color: "white",
-                      background: "var(--accent)",
-                      boxShadow: hovered === project.id ? "0 10px 24px rgba(0,0,0,0.22)" : "0 6px 14px rgba(0,0,0,0.16)",
-                      transform: hovered === project.id ? "translateY(-2px)" : "translateY(0px)",
-                    }}
-                  >
-                    <ExternalLink size={14} />
-                    View Live
-                  </a>
-                </div>
-              </div>
-
-              {/* Hover overlay */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: "radial-gradient(circle at 50% 0%, var(--accent), transparent 70%)" }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: hovered === project.id ? 0.04 : 0 }}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.div>
+      <div className="flex flex-1 flex-col p-6">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <span className="eyebrow">{project.type}</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-muted transition-all group-hover:border-accent group-hover:bg-accent group-hover:text-white">
+            <ArrowUpRight size={15} />
+          </span>
+        </div>
+        <h3 className="mb-2 text-lg font-semibold text-fg">{project.title}</h3>
+        <p className="mb-5 flex-1 text-sm leading-relaxed text-muted">{project.desc}</p>
+        <div className="flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => (
+            <span key={tag} className="chip">
+              {tag}
+            </span>
           ))}
         </div>
+      </div>
+    </motion.a>
+  );
+}
 
-        {/* GitHub CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8 }}
-          className="mt-12 text-center"
-        >
+export function Projects() {
+  const [filter, setFilter] = useState<Filter>("All");
+  const visible = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.company === filter);
+
+  return (
+    <section id="projects" className="section border-y border-line bg-surface">
+      <div className="container-x">
+        <SectionHeading
+          index="03"
+          label="Projects"
+          title="Selected work"
+          subtitle="Live client and product projects, delivered with a clean, high-end user experience."
+        />
+
+        {/* Filters */}
+        <div className="mb-10 inline-flex flex-wrap gap-1 rounded-full border border-line bg-card p-1">
+          {FILTERS.map((f) => {
+            const count = f === "All" ? PROJECTS.length : PROJECTS.filter((p) => p.company === f).length;
+            return (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`relative rounded-full px-4 py-1.5 text-sm transition-colors ${
+                  filter === f ? "text-bg" : "text-muted hover:text-fg"
+                }`}
+              >
+                {filter === f && (
+                  <motion.span
+                    layoutId="filter-pill"
+                    className="absolute inset-0 rounded-full bg-fg"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative">
+                  {f} <span className="opacity-60">{count}</span>
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {visible.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        <div className="mt-12 text-center">
           <a
-            href="https://github.com/RAHAFSALMAN7"
+            href={PROFILE.github}
             target="_blank"
             rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
           >
-            <motion.span
-              whileHover={{ x: 4 }}
-              className="inline-flex items-center gap-2 text-sm font-medium"
-              style={{ color: "var(--accent)" }}
-            >
-              View all repositories on GitHub
-              <ArrowRight size={14} />
-            </motion.span>
+            <GitFork size={15} />
+            View all repositories on GitHub
+            <ArrowUpRight size={14} />
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

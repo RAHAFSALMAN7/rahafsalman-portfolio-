@@ -7,21 +7,19 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import { CursorGlow } from "@/components/CursorGlow";
 import { ScrollProgress } from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
     <main>
       <ScrollProgress />
-      <CursorGlow />
       <Navbar />
       <Hero />
       <About />
-      <Education />
       <Experience />
-      <Skills />
       <Projects />
+      <Skills />
+      <Education />
       <Contact />
       <Footer />
     </main>

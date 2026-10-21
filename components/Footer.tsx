@@ -1,92 +1,55 @@
-"use client";
-import { motion } from "framer-motion";
-import { GitFork, Link2, Mail, ArrowUp } from "lucide-react";
-
-const LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { ArrowUp, GitFork, Link2, Mail } from "lucide-react";
+import { NAV_LINKS, PROFILE } from "@/lib/data";
 
 const SOCIALS = [
-  { icon: GitFork, href: "https://github.com/RAHAFSALMAN7", label: "GitHub" },
-  { icon: Link2, href: "https://linkedin.com/in/rahaf-alsalman7", label: "LinkedIn" },
-  { icon: Mail, href: "mailto:rahafsahir22@gmail.com", label: "Email" },
+  { icon: GitFork, href: PROFILE.github, label: "GitHub" },
+  { icon: Link2, href: PROFILE.linkedin, label: "LinkedIn" },
+  { icon: Mail, href: `mailto:${PROFILE.email}`, label: "Email" },
 ];
 
 export function Footer() {
   return (
-    <footer
-      className="border-t py-12"
-      style={{ borderColor: "var(--border)", background: "var(--bg-secondary)" }}
-    >
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
-          {/* Logo */}
-          <a
-            href="#hero"
-            className="text-2xl font-black"
-            style={{ fontFamily: "Syne, sans-serif", color: "var(--fg)" }}
-          >
-            RS<span style={{ color: "var(--accent)" }}>.</span>
+    <footer className="border-t border-line bg-surface">
+      <div className="container-x py-12">
+        <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
+          <a href="#hero" className="text-xl font-semibold tracking-tight text-fg">
+            {PROFILE.name}
+            <span className="text-accent">.</span>
           </a>
 
-          {/* Nav links */}
           <nav className="flex flex-wrap justify-center gap-6">
-            {LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm transition-colors hover:text-[var(--accent)]"
-                style={{ color: "var(--fg-muted)" }}
-              >
+            {NAV_LINKS.map((l) => (
+              <a key={l.href} href={l.href} className="text-sm text-muted transition-colors hover:text-fg">
                 {l.label}
               </a>
             ))}
           </nav>
 
-          {/* Socials */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             {SOCIALS.map(({ icon: Icon, href, label }) => (
-              <motion.a
+              <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                whileHover={{ y: -3, color: "var(--accent)" }}
-                className="transition-colors"
-                style={{ color: "var(--fg-subtle)" }}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-line-strong hover:text-fg"
               >
-                <Icon size={18} />
-              </motion.a>
+                <Icon size={15} />
+              </a>
             ))}
           </div>
         </div>
 
-        <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t"
-          style={{ borderColor: "var(--border)" }}
-        >
-          <p className="text-xs" style={{ color: "var(--fg-subtle)" }}>
-            © {new Date().getFullYear()} Rahaf Salman. Built with Next.js & Framer Motion.
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 text-xs text-subtle sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} {PROFILE.name}. Built with Next.js & Framer Motion.
           </p>
-          <p className="text-xs" style={{ color: "var(--fg-subtle)" }}>
-            Nablus, Palestine 🇵🇸
-          </p>
-
-          {/* Back to top */}
-          <motion.a
-            href="#hero"
-            whileHover={{ y: -3 }}
-            className="flex items-center gap-1.5 text-xs font-medium"
-            style={{ color: "var(--accent)" }}
-          >
+          <p>{PROFILE.location} 🇵🇸</p>
+          <a href="#hero" className="flex items-center gap-1.5 font-medium text-fg hover:text-accent">
             <ArrowUp size={13} />
             Back to top
-          </motion.a>
+          </a>
         </div>
       </div>
     </footer>

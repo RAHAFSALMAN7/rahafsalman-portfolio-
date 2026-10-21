@@ -1,133 +1,109 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTheme } from "./ThemeProvider";
-import { useState, useEffect } from "react";
-
-const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
-];
+import { NAV_LINKS, PROFILE } from "@/lib/data";
 
 export function Navbar() {
   const { theme, toggle } = useTheme();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
-  const navBg = useTransform(scrollY, [0, 80], ["rgba(0,0,0,0)", "rgba(0,0,0,0.8)"]);
+  const [active, setActive] = useState("");
 
+  // Highlight the link for whichever section is in the middle of the viewport
   useEffect(() => {
-    const unsub = scrollY.on("change", (v) => setScrolled(v > 40));
-    return unsub;
-  }, [scrollY]);
+    const sections = NAV_LINKS.map((l) => document.querySelector(l.href)).filter(Boolean) as Element[];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`));
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <>
+    <header className="fixed inset-x-0 top-4 z-50 px-4">
       <motion.nav
-        style={{ backgroundColor: navBg }}
-        className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="mx-auto flex max-w-3xl items-center justify-between rounded-full border border-line bg-card/70 py-2 pl-5 pr-2 backdrop-blur-xl"
+        style={{ boxShadow: "0 8px 32px var(--shadow)" }}
       >
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <motion.a
-            href="#hero"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="font-display text-xl font-bold"
-            style={{ color: "var(--fg)", fontFamily: "Syne, sans-serif" }}
-          >
-            RS<span style={{ color: "var(--accent)" }}>.</span>
-          </motion.a>
+        <a href="#hero" className="text-sm font-semibold tracking-tight text-fg">
+          {PROFILE.initials}
+          <span className="text-accent">.</span>
+        </a>
 
-          {/* Desktop links */}
-          <motion.ul
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="hidden md:flex items-center gap-8"
-          >
-            {NAV_LINKS.map((link, i) => (
-              <li key={link.href}>
-                <motion.a
-                  href={link.href}
-                  className="text-sm font-medium transition-colors"
-                  style={{ color: "var(--fg-muted)" }}
-                  whileHover={{ color: "var(--accent)" }}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.15 + i * 0.05 }}
-                >
-                  {link.label}
-                </motion.a>
-              </li>
-            ))}
-          </motion.ul>
-
-          {/* Right actions */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex items-center gap-3"
-          >
-            <motion.button
-              onClick={toggle}
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-              className="w-9 h-9 rounded-full flex items-center justify-center border transition-colors"
-              style={{ borderColor: "var(--border)", color: "var(--fg-muted)" }}
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            </motion.button>
-
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white"
-              style={{ background: "var(--accent)", fontFamily: "Syne, sans-serif" }}
-            >
-              Hire Me
-            </motion.a>
-
-            <button
-              onClick={() => setOpen(!open)}
-              className="md:hidden w-9 h-9 flex items-center justify-center"
-              style={{ color: "var(--fg)" }}
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </motion.div>
-        </div>
-      </motion.nav>
-
-      {/* Mobile menu */}
-      <motion.div
-        initial={false}
-        animate={open ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-        className={`fixed top-[65px] left-0 right-0 z-40 border-b md:hidden ${!open && "pointer-events-none"}`}
-        style={{ background: "var(--bg)", borderColor: "var(--border)" }}
-      >
-        <ul className="flex flex-col p-6 gap-4">
+        <ul className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} className="relative">
               <a
                 href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-lg font-medium"
-                style={{ color: "var(--fg-muted)", fontFamily: "Syne, sans-serif" }}
+                className={`relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                  active === link.href ? "text-fg" : "text-muted hover:text-fg"
+                }`}
               >
                 {link.label}
               </a>
+              {active === link.href && (
+                <motion.span
+                  layoutId="nav-pill"
+                  className="absolute inset-0 rounded-full bg-surface"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
             </li>
           ))}
         </ul>
-      </motion.div>
-    </>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={toggle}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-fg"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <a href="#contact" className="btn-primary hidden !px-4 !py-2 md:inline-flex">
+            Hire Me
+          </a>
+          <button
+            onClick={() => setOpen(!open)}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-fg md:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </motion.nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="card mx-auto mt-2 flex max-w-3xl flex-col p-2 md:hidden"
+          >
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-2xl px-4 py-3 text-base text-muted transition-colors hover:bg-surface hover:text-fg"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }
