@@ -42,6 +42,7 @@ export type Experience = {
   current?: boolean;
   bullets: string[];
   tags: string[];
+  photo?: { src: string; alt: string; caption: string };
 };
 
 export const EXPERIENCES: Experience[] = [
@@ -60,6 +61,11 @@ export const EXPERIENCES: Experience[] = [
       "Delivered responsive, production-ready front-end interfaces",
     ],
     tags: ["React.js", "Next.js", "Shopify", "E-commerce", "Vercel", "UI/UX"],
+    photo: {
+      src: "/255-badge.jpg",
+      alt: "Rahaf Salman's Web Developer badge at 255 Advertising Agency",
+      caption: "On the team since Sep 2026",
+    },
   },
   {
     company: "Zuccess",

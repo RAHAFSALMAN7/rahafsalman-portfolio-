@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
@@ -40,6 +41,7 @@ export function Experience() {
                   </div>
                 </div>
 
+                <div className={exp.photo ? "grid gap-10 lg:grid-cols-[1fr_250px] lg:gap-12" : ""}>
                 <div>
                   <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
                     <h3 className="display text-5xl text-fg md:text-6xl">{exp.company}</h3>
@@ -73,6 +75,25 @@ export function Experience() {
                       </span>
                     ))}
                   </div>
+                </div>
+
+                {exp.photo && (
+                  <figure className="w-full max-w-[250px] -rotate-2 transition-transform duration-300 hover:rotate-0">
+                    <div className="relative aspect-[3/4]">
+                      <span className="absolute inset-0 translate-x-2 translate-y-2 bg-accent" />
+                      <span className="absolute inset-0 overflow-hidden border-2 border-line-strong">
+                        <Image
+                          src={exp.photo.src}
+                          alt={exp.photo.alt}
+                          fill
+                          sizes="250px"
+                          className="object-cover"
+                        />
+                      </span>
+                    </div>
+                    <figcaption className="label mt-4">{exp.photo.caption}</figcaption>
+                  </figure>
+                )}
                 </div>
               </article>
             </Reveal>
