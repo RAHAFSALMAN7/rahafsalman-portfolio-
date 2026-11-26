@@ -39,7 +39,7 @@ export function Contact() {
       <div className="container-x">
         <Reveal>
           <div className="flex items-center justify-between border-t-2 border-bg pt-3 font-mono text-xs uppercase tracking-[0.16em]">
-            <span>(06)</span>
+            <span>(07)</span>
             <span>Contact</span>
           </div>
           <h2 className="display mt-8" style={{ fontSize: "clamp(4rem, 14vw, 12rem)" }}>

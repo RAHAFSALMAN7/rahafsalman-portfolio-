@@ -27,6 +27,7 @@ export const NAV_LINKS = [
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
+  { label: "Certificates", href: "#certificates" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -254,8 +255,72 @@ export const EDUCATION = [
     school: "American English Scholarship Program",
     degree: "English Language Certificate",
     program: "AESP — 120-Hour Intensive Training",
-    year: "2024",
+    year: "2025",
     tags: ["General English", "Business English", "Communication"],
+  },
+];
+
+export type Certificate = {
+  title: string;
+  issuer: string;
+  date: string;
+  kind: "Nanodegree" | "Training" | "Program" | "Workshop" | "Webinar";
+  detail?: string;
+  verifyUrl?: string;
+  // First image is the card thumbnail; the rest show in the viewer
+  images: { src: string; alt: string }[];
+};
+
+// Newest first
+export const CERTIFICATES: Certificate[] = [
+  {
+    title: "American English Scholarship Program",
+    issuer: "Amideast · America House",
+    date: "Apr 2025",
+    kind: "Program",
+    detail: "120-hour training",
+    images: [{ src: "/certificates/amideast-aesp.jpg", alt: "AESP certificate of completion from Amideast" }],
+  },
+  {
+    title: "Project Management Professional with AI",
+    issuer: "Creativity House",
+    date: "Jan 2025",
+    kind: "Webinar",
+    images: [{ src: "/certificates/creativity-house-pmp-ai.jpg", alt: "Creativity House certificate of participation" }],
+  },
+  {
+    title: "AI / ML Training",
+    issuer: "Paltel · Jawwal",
+    date: "Sep – Nov 2024",
+    kind: "Training",
+    detail: "320 training hours",
+    images: [
+      { src: "/certificates/jawwal-paltel-training.jpg", alt: "Jawwal training completion letter" },
+      { src: "/certificates/paltel-desk.jpg", alt: "Workspace during the Paltel training in Nablus" },
+    ],
+  },
+  {
+    title: "Front End Web Developer",
+    issuer: "Udacity",
+    date: "Sep 2024",
+    kind: "Nanodegree",
+    verifyUrl: "https://confirm.udacity.com/e/814e842e-0cbc-11ef-b940-63cb598f4668",
+    images: [{ src: "/certificates/udacity-frontend.jpg", alt: "Udacity Front End Web Developer nanodegree certificate" }],
+  },
+  {
+    title: "Oracle Programming",
+    issuer: "Adaptive TechSoft (ATS)",
+    date: "Jul – Aug 2024",
+    kind: "Training",
+    detail: "320 training hours",
+    images: [{ src: "/certificates/ats-oracle.jpg", alt: "Adaptive TechSoft training certificate" }],
+  },
+  {
+    title: "Introduction to QA",
+    issuer: "IEEE Computer Society · Student Branch",
+    date: "Feb 2024",
+    kind: "Workshop",
+    images: [{ src: "/certificates/ieee-qa-workshop.jpg", alt: "IEEE certificate of attendance, Introduction to QA" }],
   },
 ];
 

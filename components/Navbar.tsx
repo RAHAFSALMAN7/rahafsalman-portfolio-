@@ -31,7 +31,7 @@ export function Navbar() {
           <span className="ml-1 inline-block h-2.5 w-2.5 bg-accent align-baseline" />
         </a>
 
-        <ul className="hidden items-center gap-7 md:flex">
+        <ul className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link, i) => (
             <li key={link.href}>
               <a
@@ -55,12 +55,12 @@ export function Navbar() {
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <a href="#contact" className="btn-primary hidden !px-4 !py-2.5 md:inline-flex">
+          <a href="#contact" className="btn-primary hidden !px-4 !py-2.5 lg:inline-flex">
             Hire me
           </a>
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-10 w-10 items-center justify-center border border-line text-fg md:hidden"
+            className="flex h-10 w-10 items-center justify-center border border-line text-fg lg:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
@@ -76,7 +76,7 @@ export function Navbar() {
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-line bg-bg md:hidden"
+            className="overflow-hidden border-t border-line bg-bg lg:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <li key={link.href} className="border-b border-line">
