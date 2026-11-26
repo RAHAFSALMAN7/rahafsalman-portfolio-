@@ -24,80 +24,69 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4">
-      <motion.nav
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mx-auto flex max-w-3xl items-center justify-between rounded-full border border-line bg-card/70 py-2 pl-5 pr-2 backdrop-blur-xl"
-        style={{ boxShadow: "0 8px 32px var(--shadow)" }}
-      >
-        <a href="#hero" className="text-sm font-semibold tracking-tight text-fg">
-          {PROFILE.initials}
-          <span className="text-accent">.</span>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
+      <nav className="container-x flex h-16 items-center justify-between">
+        <a href="#hero" className="display text-2xl text-fg">
+          {PROFILE.name}
+          <span className="ml-1 inline-block h-2.5 w-2.5 bg-accent align-baseline" />
         </a>
 
-        <ul className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => (
-            <li key={link.href} className="relative">
+        <ul className="hidden items-center gap-7 md:flex">
+          {NAV_LINKS.map((link, i) => (
+            <li key={link.href}>
               <a
                 href={link.href}
-                className={`relative z-10 block rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                  active === link.href ? "text-fg" : "text-muted hover:text-fg"
+                className={`group flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.14em] transition-colors ${
+                  active === link.href ? "text-fg" : "text-subtle hover:text-fg"
                 }`}
               >
+                <span className={active === link.href ? "bg-accent px-1 text-on-accent" : ""}>0{i + 1}</span>
                 {link.label}
               </a>
-              {active === link.href && (
-                <motion.span
-                  layoutId="nav-pill"
-                  className="absolute inset-0 rounded-full bg-surface"
-                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                />
-              )}
             </li>
           ))}
         </ul>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <button
             onClick={toggle}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-surface hover:text-fg"
+            className="flex h-10 w-10 items-center justify-center border border-line text-fg transition-colors hover:border-line-strong"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          <a href="#contact" className="btn-primary hidden !px-4 !py-2 md:inline-flex">
-            Hire Me
+          <a href="#contact" className="btn-primary hidden !px-4 !py-2.5 md:inline-flex">
+            Hire me
           </a>
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-fg md:hidden"
+            className="flex h-10 w-10 items-center justify-center border border-line text-fg md:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
       <AnimatePresence>
         {open && (
           <motion.ul
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="card mx-auto mt-2 flex max-w-3xl flex-col p-2 md:hidden"
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-line bg-bg md:hidden"
           >
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
+            {NAV_LINKS.map((link, i) => (
+              <li key={link.href} className="border-b border-line">
                 <a
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-2xl px-4 py-3 text-base text-muted transition-colors hover:bg-surface hover:text-fg"
+                  className="container-x flex items-baseline gap-4 py-4 text-fg"
                 >
-                  {link.label}
+                  <span className="font-mono text-xs text-subtle">0{i + 1}</span>
+                  <span className="display text-4xl">{link.label}</span>
                 </a>
               </li>
             ))}

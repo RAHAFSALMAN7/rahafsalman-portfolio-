@@ -1,61 +1,53 @@
 @import "tailwindcss";
 
+/* `dark:` follows the .dark class set by the theme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Palette: ink + paper + one loud accent ---------- */
 :root {
-  --bg: #fafaf9;
-  --bg-secondary: #f3f3f1;
-  --fg: #0c0c0e;
-  --fg-muted: #55555d;
-  --fg-subtle: #8c8c94;
-  --accent: #5b4cf0;
-  --accent-hover: #4a3bdb;
-  --accent-light: #ecebfe;
-  --border: #e6e5e1;
-  --border-strong: #d2d1cc;
-  --card: #ffffff;
-  --shadow: rgba(12, 12, 14, 0.06);
-  --shadow-strong: rgba(12, 12, 14, 0.12);
-  --grid-dot: rgba(12, 12, 14, 0.09);
+  --bg: #f1efe8;
+  --bg-secondary: #e7e4db;
+  --fg: #0b0b0b;
+  --fg-muted: #4a4945;
+  --fg-subtle: #87857e;
+  --accent: #1b2a5c;
+  --on-accent: #ffffff;
+  --border: rgba(11, 11, 11, 0.14);
+  --border-strong: #0b0b0b;
 }
 
 .dark {
-  --bg: #09090b;
-  --bg-secondary: #0e0e11;
-  --fg: #f4f4f5;
-  --fg-muted: #a1a1aa;
-  --fg-subtle: #6b6b75;
-  --accent: #8f85ff;
-  --accent-hover: #a59dff;
-  --accent-light: rgba(143, 133, 255, 0.12);
-  --border: #1d1d22;
-  --border-strong: #2c2c33;
-  --card: #111114;
-  --shadow: rgba(0, 0, 0, 0.35);
-  --shadow-strong: rgba(0, 0, 0, 0.55);
-  --grid-dot: rgba(255, 255, 255, 0.07);
+  --bg: #0b0b0b;
+  --bg-secondary: #151515;
+  --fg: #f1efe8;
+  --fg-muted: #a5a39c;
+  --fg-subtle: #6c6b66;
+  --accent: #34509e;
+  --on-accent: #ffffff;
+  --border: rgba(241, 239, 232, 0.14);
+  --border-strong: #f1efe8;
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--bg-secondary);
-  --color-card: var(--card);
   --color-fg: var(--fg);
   --color-muted: var(--fg-muted);
   --color-subtle: var(--fg-subtle);
   --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-soft: var(--accent-light);
+  --color-on-accent: var(--on-accent);
   --color-line: var(--border);
   --color-line-strong: var(--border-strong);
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-display: var(--font-anton), Impact, "Arial Narrow", sans-serif;
 }
 
 * { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: 5rem;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -67,61 +59,67 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4 {
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 600;
-}
+::selection { background: var(--accent); color: var(--on-accent); }
 
-::selection { background: var(--accent); color: white; }
-
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--fg); }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 @layer components {
   .container-x {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8;
   }
 
   .section {
     @apply py-24 md:py-32;
   }
 
-  .card {
-    @apply rounded-3xl border border-line bg-card;
-    box-shadow: 0 1px 2px var(--shadow);
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
   }
 
-  .chip {
-    @apply inline-flex items-center rounded-full border border-line px-3 py-1 text-xs text-muted;
+  /* Highlighter block behind a word */
+  .mark {
+    background: var(--accent);
+    color: var(--on-accent);
+    padding: 0 0.12em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
-  .eyebrow {
-    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-subtle;
+  .label {
+    @apply font-mono text-[11px] uppercase tracking-[0.16em] text-subtle;
+  }
+
+  .tag {
+    @apply inline-flex items-center border border-line px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-muted;
   }
 
   .btn-primary,
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 hover:-translate-y-0.5;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 font-mono text-xs font-medium uppercase tracking-[0.14em] transition-all duration-200;
   }
 
   .btn-primary {
-    @apply bg-fg text-bg;
-    box-shadow: 0 8px 24px var(--shadow-strong);
+    @apply border-2 border-accent bg-accent text-on-accent hover:-translate-y-0.5;
+    box-shadow: 0 0 0 0 var(--fg);
   }
+
+  .btn-primary:hover { box-shadow: 4px 4px 0 0 var(--fg); }
 
   .btn-ghost {
-    @apply border border-line-strong text-fg hover:border-fg;
+    @apply border-2 border-line-strong text-fg hover:bg-fg hover:text-bg;
   }
 
-  .dot-grid {
-    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
-    background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 40%, transparent 100%);
-  }
+  /* Grid of cells that share 1px borders */
+  .cell-grid { @apply grid pt-px pl-px; }
+  .cell-grid > * { @apply -mt-px -ml-px border border-line; }
 }
 
 @keyframes marquee {
@@ -129,7 +127,7 @@ h1, h2, h3, h4 {
   to { transform: translateX(-50%); }
 }
 
-.animate-marquee { animation: marquee 28s linear infinite; }
+.animate-marquee { animation: marquee 30s linear infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

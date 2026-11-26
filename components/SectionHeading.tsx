@@ -9,14 +9,15 @@ interface Props {
 
 export function SectionHeading({ index, label, title, subtitle }: Props) {
   return (
-    <Reveal className="mb-14 md:mb-16">
-      <div className="mb-5 flex items-center gap-3">
-        <span className="font-mono text-xs text-accent">{index}</span>
-        <span className="h-px w-8 bg-line-strong" />
-        <span className="eyebrow">{label}</span>
+    <Reveal className="mb-12 md:mb-16">
+      <div className="flex items-center justify-between border-t-2 border-line-strong pt-3 font-mono text-xs uppercase tracking-[0.16em] text-fg">
+        <span>({index})</span>
+        <span>{label}</span>
       </div>
-      <h2 className="text-4xl font-semibold text-fg md:text-5xl">{title}</h2>
-      {subtitle && <p className="mt-4 max-w-2xl text-base text-muted md:text-lg">{subtitle}</p>}
+      <div className="mt-8 grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-end">
+        <h2 className="display text-6xl text-fg sm:text-7xl md:text-8xl">{title}</h2>
+        {subtitle && <p className="max-w-md text-base text-muted md:justify-self-end md:text-lg">{subtitle}</p>}
+      </div>
     </Reveal>
   );
 }

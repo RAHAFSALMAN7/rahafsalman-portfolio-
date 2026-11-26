@@ -1,19 +1,18 @@
 "use client";
 import { useState } from "react";
-import { ArrowUpRight, Check, Copy, GitFork, Link2, Mail, MapPin, Phone, Send } from "lucide-react";
-import { SectionHeading } from "./SectionHeading";
+import { ArrowRight, ArrowUpRight, Check, Copy } from "lucide-react";
 import { Reveal } from "./Reveal";
 import { PROFILE } from "@/lib/data";
 
 const CONTACT_INFO = [
-  { icon: Phone, label: "Phone", value: PROFILE.phone, href: PROFILE.phoneHref },
-  { icon: GitFork, label: "GitHub", value: PROFILE.githubHandle, href: PROFILE.github },
-  { icon: Link2, label: "LinkedIn", value: PROFILE.linkedinHandle, href: PROFILE.linkedin },
-  { icon: MapPin, label: "Location", value: PROFILE.location, href: null },
+  { label: "Phone", value: PROFILE.phone, href: PROFILE.phoneHref },
+  { label: "GitHub", value: PROFILE.githubHandle, href: PROFILE.github },
+  { label: "LinkedIn", value: PROFILE.linkedinHandle, href: PROFILE.linkedin },
+  { label: "Location", value: PROFILE.location, href: null },
 ];
 
 const inputClass =
-  "w-full rounded-2xl border border-line bg-bg px-4 py-3 text-sm text-fg outline-none transition-colors placeholder:text-subtle focus:border-accent";
+  "w-full border-0 border-b-2 border-bg/25 bg-transparent px-0 py-3 text-lg text-bg outline-none transition-colors placeholder:text-bg/30 focus:border-accent";
 
 export function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -36,82 +35,75 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section bg-fg text-bg">
       <div className="container-x">
-        <SectionHeading
-          index="06"
-          label="Contact"
-          title={
-            <>
-              Let&apos;s build something <span className="font-serif font-normal italic tracking-normal text-accent">great</span>.
-            </>
-          }
-          subtitle="Have a project in mind, a role to fill, or just want to connect? I typically respond within 24 hours."
-        />
+        <Reveal>
+          <div className="flex items-center justify-between border-t-2 border-bg pt-3 font-mono text-xs uppercase tracking-[0.16em]">
+            <span>(06)</span>
+            <span>Contact</span>
+          </div>
+          <h2 className="display mt-8" style={{ fontSize: "clamp(4rem, 14vw, 12rem)" }}>
+            Let&apos;s build
+            <br />
+            something <span className="bg-bg px-[0.12em] text-fg">great</span>
+          </h2>
+        </Reveal>
 
-        <div className="grid gap-4 lg:grid-cols-[1fr_1.2fr]">
+        {/* Email */}
+        <Reveal delay={0.1} className="mt-14 flex flex-wrap items-center justify-between gap-4 border-y border-bg/20 py-8">
+          <a
+            href={`mailto:${PROFILE.email}`}
+            className="group flex items-center gap-3 break-all text-2xl font-medium sm:text-4xl"
+          >
+            {PROFILE.email}
+            <ArrowUpRight className="shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" size={32} />
+          </a>
+          <button
+            onClick={copyEmail}
+            className="flex items-center gap-2 border-2 border-bg/30 px-4 py-2.5 font-mono text-xs uppercase tracking-[0.14em] transition-colors hover:border-accent hover:bg-accent hover:text-on-accent"
+          >
+            {copied ? <Check size={14} /> : <Copy size={14} />}
+            {copied ? "Copied" : "Copy email"}
+          </button>
+        </Reveal>
+
+        <div className="mt-14 grid gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
           {/* Info */}
-          <Reveal className="flex flex-col gap-4">
-            <div className="card p-7">
-              <div className="eyebrow mb-3">Email me</div>
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <a href={`mailto:${PROFILE.email}`} className="break-all text-lg font-medium text-fg hover:text-accent sm:text-xl">
-                  {PROFILE.email}
-                </a>
-                <button
-                  onClick={copyEmail}
-                  className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-line-strong hover:text-fg"
-                >
-                  {copied ? <Check size={13} className="text-emerald-500" /> : <Copy size={13} />}
-                  {copied ? "Copied" : "Copy"}
-                </button>
-              </div>
-            </div>
-
-            <div className="card divide-y divide-line">
-              {CONTACT_INFO.map(({ icon: Icon, label, value, href }) => {
-                const content = (
-                  <>
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface text-muted transition-colors group-hover:text-accent">
-                      <Icon size={16} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs text-subtle">{label}</div>
-                      <div className="truncate text-sm font-medium text-fg">{value}</div>
-                    </div>
-                    {href && <ArrowUpRight size={15} className="text-subtle transition-colors group-hover:text-fg" />}
-                  </>
-                );
-                return href ? (
-                  <a
-                    key={label}
-                    href={href}
-                    target={href.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-4 px-6 py-4"
-                  >
-                    {content}
-                  </a>
-                ) : (
-                  <div key={label} className="group flex items-center gap-4 px-6 py-4">
-                    {content}
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="flex items-center gap-2.5 px-2 text-sm text-muted">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-              Open to new opportunities and collaborations
+          <Reveal>
+            <dl>
+              {CONTACT_INFO.map(({ label, value, href }) => (
+                <div key={label} className="grid grid-cols-[110px_1fr] items-center gap-4 border-b border-bg/20 py-5">
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-bg/50">{label}</dt>
+                  <dd className="truncate">
+                    {href ? (
+                      <a
+                        href={href}
+                        target={href.startsWith("http") ? "_blank" : undefined}
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1 font-medium decoration-current decoration-2 underline-offset-4 hover:underline"
+                      >
+                        {value}
+                        <ArrowUpRight size={14} className="opacity-50 group-hover:opacity-100" />
+                      </a>
+                    ) : (
+                      <span className="font-medium">{value}</span>
+                    )}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.14em]">
+              <span className="h-2.5 w-2.5 animate-pulse bg-accent" />
+              Open to new opportunities
             </div>
           </Reveal>
 
           {/* Form */}
           <Reveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="card space-y-4 p-7 sm:p-8">
-              <div className="grid gap-4 sm:grid-cols-2">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid gap-8 sm:grid-cols-2">
                 <label className="block">
-                  <span className="eyebrow mb-2 block">Name</span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-bg/50">Name</span>
                   <input
                     required
                     value={form.name}
@@ -121,7 +113,7 @@ export function Contact() {
                   />
                 </label>
                 <label className="block">
-                  <span className="eyebrow mb-2 block">Email</span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-bg/50">Email</span>
                   <input
                     required
                     type="email"
@@ -133,24 +125,26 @@ export function Contact() {
                 </label>
               </div>
               <label className="block">
-                <span className="eyebrow mb-2 block">Message</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-bg/50">Message</span>
                 <textarea
                   required
-                  rows={6}
+                  rows={4}
                   value={form.message}
                   onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                   placeholder="Tell me about your project or opportunity..."
                   className={`${inputClass} resize-none`}
                 />
               </label>
-              <button type="submit" className="btn-primary w-full !py-3.5">
-                <Send size={15} />
-                Send message
-              </button>
-              <p className="flex items-center justify-center gap-1.5 text-xs text-subtle">
-                <Mail size={12} />
-                Opens your email app with the message ready to send
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <p className="text-xs text-bg/50">Opens your email app with the message ready to send.</p>
+                <button
+                  type="submit"
+                  className="group inline-flex items-center gap-2 bg-accent px-7 py-4 font-mono text-xs font-medium uppercase tracking-[0.14em] text-on-accent transition-transform hover:-translate-y-0.5"
+                >
+                  Send message
+                  <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                </button>
+              </div>
             </form>
           </Reveal>
         </div>

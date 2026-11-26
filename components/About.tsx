@@ -1,101 +1,78 @@
-import { Code2, Layers, MapPin, Users, Zap } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 import { Reveal } from "./Reveal";
 import { PROFILE } from "@/lib/data";
 
+const FACTS = [
+  { label: "Based in", value: PROFILE.location },
+  { label: "Currently", value: `${PROFILE.current.role} @ ${PROFILE.current.company}` },
+  { label: "Education", value: "CS Apprenticeship — An-Najah, 2025" },
+  { label: "Focus", value: "Next.js · Shopify · 3D & Motion" },
+  { label: "Work mode", value: "On-site in the West Bank · Remote worldwide" },
+];
+
 const TRAITS = [
-  { icon: Code2, title: "Clean Code", desc: "Maintainable, scalable, and readable code is always a priority." },
-  { icon: Layers, title: "Full Stack Thinking", desc: "From API design to pixel-perfect UI — I connect the dots end-to-end." },
-  { icon: Zap, title: "Performance First", desc: "Optimizing for speed, accessibility, and great user experiences." },
-  { icon: Users, title: "Client-Focused", desc: "Delivered for clients across the Middle East, including the Saudi market." },
+  { title: "Clean code", desc: "Maintainable, scalable, and readable code is always a priority." },
+  { title: "3D & motion", desc: "Interactive 3D scenes and smooth animations that bring brands to life." },
+  { title: "Performance", desc: "Optimizing for speed, accessibility, and great user experiences." },
+  { title: "Client-focused", desc: "Delivered for clients across the Middle East and the U.S." },
 ];
 
 export function About() {
   return (
-    <section id="about" className="section border-t border-line bg-surface">
+    <section id="about" className="section">
       <div className="container-x">
         <SectionHeading
           index="01"
           label="About"
           title={
             <>
-              Code with a <span className="font-serif font-normal italic tracking-normal text-accent">designer&apos;s</span> eye.
+              Code with a <span className="mark">designer&apos;s</span> eye
             </>
           }
         />
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          {/* Bio */}
-          <Reveal className="card p-7 sm:p-9 lg:col-span-2">
-            <div className="space-y-5 text-base leading-relaxed text-muted sm:text-lg">
-              <p>
-                I&apos;m a graduate of the{" "}
-                <span className="font-medium text-fg">Computer Science Apprenticeship Program</span> at{" "}
-                <span className="font-medium text-fg">An-Najah National University</span>, specializing in
-                Software Engineering. I focus on crafting modern web applications that are fast, beautiful,
-                and solve real problems.
-              </p>
-              <p>
-                Since September 2026, I&apos;ve been a Web Developer at{" "}
-                <a
-                  href={PROFILE.current.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-accent underline-offset-4 hover:underline"
-                >
-                  255 Advertising
-                </a>
-                , improving the agency&apos;s official website and building client sites like La Rose Aroma,
-                Al-Amour, and Roseme.
-              </p>
-              <p>
-                I also build <span className="font-medium text-fg">e-commerce stores on Shopify</span> —
-                customizing themes, setting up products and payments, and launching stores that are ready
-                to sell.
-              </p>
-              <p>
-                Before that, at <span className="font-medium text-fg">Zuccess</span>, I worked full-time
-                building and deploying production websites for clients across the Middle East — from React
-                frontends to deployments on Netlify, Vercel, and GoDaddy.
-              </p>
-            </div>
+        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
+          <Reveal className="space-y-6 text-xl leading-relaxed text-muted md:text-2xl">
+            <p className="text-fg">
+              I&apos;m a frontend developer and a graduate of the Computer Science Apprenticeship Program at
+              An-Najah National University, specializing in Software Engineering.
+            </p>
+            <p>
+              At <span className="text-fg">255 Advertising</span> I improve the agency&apos;s official website
+              and build client sites like La Rose Aroma, Al-Amour, Roseme, and the 3D Kanaan Trucking website —
+              plus Shopify stores that are ready to sell.
+            </p>
+            <p>
+              Before that, at <span className="text-fg">Zuccess</span>, I built and deployed production websites
+              for clients across the Middle East, from React frontends to Netlify, Vercel, and GoDaddy.
+            </p>
           </Reveal>
 
-          {/* Side column */}
-          <div className="grid gap-4">
-            <Reveal delay={0.08} className="card p-7">
-              <MapPin size={18} className="mb-4 text-accent" />
-              <div className="font-medium text-fg">{PROFILE.location}</div>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                Flexible to work with clients across all cities in the West Bank, and remotely worldwide.
-              </p>
-            </Reveal>
-            <Reveal delay={0.16} className="card grid grid-cols-2 gap-4 p-7">
-              <div>
-                <div className="text-3xl font-semibold tracking-tight text-fg">2025</div>
-                <div className="text-xs text-muted">CS Apprenticeship grad</div>
-              </div>
-              <div>
-                <div className="text-3xl font-semibold tracking-tight text-fg">100%</div>
-                <div className="text-xs text-muted">Remote ready</div>
-              </div>
-            </Reveal>
-          </div>
+          <Reveal delay={0.1}>
+            <dl className="border-t-2 border-line-strong">
+              {FACTS.map((f) => (
+                <div key={f.label} className="grid grid-cols-[110px_1fr] gap-4 border-b border-line py-4">
+                  <dt className="label pt-0.5">{f.label}</dt>
+                  <dd className="text-sm font-medium text-fg">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
         </div>
 
         {/* Traits */}
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {TRAITS.map(({ icon: Icon, title, desc }, i) => (
+        <div className="cell-grid mt-16 sm:grid-cols-2 lg:grid-cols-4">
+          {TRAITS.map(({ title, desc }, i) => (
             <Reveal
               key={title}
               delay={0.05 * i}
-              className="card group p-6 transition-colors hover:border-line-strong"
+              className="group flex min-h-56 flex-col justify-between p-6 transition-colors duration-300 hover:bg-accent"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-accent-soft text-accent transition-transform group-hover:-rotate-6">
-                <Icon size={18} />
+              <span className="font-mono text-xs text-subtle group-hover:text-on-accent">0{i + 1}</span>
+              <div>
+                <h3 className="display mb-3 text-4xl text-fg group-hover:text-on-accent">{title}</h3>
+                <p className="text-sm leading-relaxed text-muted group-hover:text-on-accent">{desc}</p>
               </div>
-              <h3 className="mb-1.5 text-base font-semibold text-fg">{title}</h3>
-              <p className="text-sm leading-relaxed text-muted">{desc}</p>
             </Reveal>
           ))}
         </div>

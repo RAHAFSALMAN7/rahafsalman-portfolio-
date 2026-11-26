@@ -175,6 +175,15 @@ export const PROJECTS: Project[] = [
     hue: 310,
   },
   {
+    title: "Kanaan Trucking",
+    desc: "Website for a U.S. truckload carrier, built with interactive 3D elements and motion that bring the brand to life, covering services, fleet, careers, and contact.",
+    tags: ["3D", "Next.js", "Animations"],
+    type: "3D Business Website",
+    company: "255 Advertising",
+    liveUrl: "https://kanaan-trucking.vercel.app/",
+    hue: 35,
+  },
+  {
     title: "AMT Arabia",
     desc: "Real client project built for the Saudi market, focused on polished UX, clear structure, and a fast, production-ready web experience.",
     tags: ["Next.js", "Tailwind CSS", "SEO"],

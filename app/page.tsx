@@ -11,7 +11,7 @@ import { ScrollProgress } from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
       <ScrollProgress />
       <Navbar />
       <Hero />
